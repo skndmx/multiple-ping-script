@@ -3,6 +3,7 @@ import subprocess
 import datetime
 import time
 import re
+import resource
 from sys import platform
 from threading import Thread
 
@@ -47,6 +48,11 @@ def ping_test (ip):
         not_reachable.append(ip)            #Else, it's not reachable
 
 def main():
+    if "darwin" in platform:            #set "ulimit -n" higher for Mac, to avoid "OSError: [Errno 24] Too many open files"
+        target_procs=50000
+        cur_proc, max_proc=resource.getrlimit(resource.RLIMIT_NOFILE)
+        target_proc = min(max_proc,target_procs)
+        resource.setrlimit(resource.RLIMIT_NOFILE, (max(cur_proc,target_proc),max_proc))
     date = datetime.date.today()
     start_time = time.time()                 
     f = open('hosts.txt','r')               #open file
