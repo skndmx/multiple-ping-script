@@ -11,13 +11,13 @@ reachable_rtt = []                          #Empty list to collect reachable hos
 not_reachable = []                          #Empty list to collect unreachable hosts
 
 def ping_test (ip):
-    if "win" in platform:                   #platform == win32 for Windows, platform == linux for Linux
+    if "win32" in platform:                   #platform equals win32 for Windows, equals linux for Linux, darwin for Mac
         pingcount = "-n"
         pattern = r"Average = (\d+\S+)"
         pattern_ip = r"\[\d+.\d+.\d+.\d+\]"
         keyword = "Average"
         ping_test = subprocess.Popen(["ping", pingcount, "2", ip], stdout = subprocess.PIPE,stderr = subprocess.PIPE, shell=True)
-    else:                                   #Linux. Not tested on Mac yet.
+    else:                                   #Linux & Mac
         pingcount = "-c"
         pattern = r"= \d+\.\d+/(\d+\.\d+)/\d+\.\d+/\d+\.\d+ ms"
         pattern_ip = r"\(\d+.\d+.\d+.\d+\)"
@@ -34,7 +34,7 @@ def ping_test (ip):
         except ValueError:                      
             type = "hostname"
         rtt = re.findall(pattern, output.decode())[0]   #Regex to find latency
-        if "linux" in platform:                 
+        if "linux" in platform or "darwin" in platform:                 
             rtt = rtt+"ms"
         if type == "ip":
             print("IP: {0:56} Average RTT: {1}".format(ip, rtt))
@@ -57,7 +57,7 @@ def main():
     for line in f:
         IP = line.strip()
         if "/" in IP:                     #If Address has subnet mask symbol(/), eg: 192.168.1.0/30
-            for ip in ipaddress.IPv4Network(IP): 
+            for ip in ipaddress.IPv4Network(IP,False): 
                 count += 1
                 th = Thread(target=ping_test, args=(str(ip),))  
                 th.start()
