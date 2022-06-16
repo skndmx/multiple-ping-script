@@ -3,9 +3,10 @@ import subprocess
 import datetime
 import time
 import re
-import resource
 from sys import platform
 from threading import Thread
+if "darwin" in platform:
+     import resource # pylint: disable=import-error
 
 reachable = []                              #Empty list to collect reachable hosts
 reachable_rtt = []                          #Empty list to collect reachable hosts + RTT

@@ -1,0 +1,6 @@
+192.168.13.1                              RTT:0ms
+8.8.8.8                                   RTT:17ms
+8.8.8.8                                   RTT:18ms
+google.com                                RTT:21ms
+1.1.1.1                                   RTT:21ms
+kevinjin.com                              RTT:19ms
