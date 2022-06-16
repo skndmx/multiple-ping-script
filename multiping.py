@@ -18,7 +18,7 @@ def ping_test (ip):
         pattern = r"Average = (\d+\S+)"
         pattern_ip = r"\[\d+.\d+.\d+.\d+\]"
         keyword = "Average"
-        ping_test = subprocess.Popen(["ping", pingcount, "2", ip], stdout = subprocess.PIPE,stderr = subprocess.PIPE, shell=True)
+        ping_test = subprocess.Popen(["ping", pingcount, "2", ip], stdout = subprocess.PIPE,stderr = subprocess.PIPE)
     else:                                   #Linux & Mac
         pingcount = "-c"
         pattern = r"= \d+\.\d+/(\d+\.\d+)/\d+\.\d+/\d+\.\d+ ms"
